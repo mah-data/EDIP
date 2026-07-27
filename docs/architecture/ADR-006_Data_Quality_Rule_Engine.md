@@ -33,6 +33,14 @@ Reason:
 - Simple rules (e.g. `Temperature IS NOT NULL`) and complex rules (multiple conditions) are both supported.
 - Using NVARCHAR(MAX) avoids future schema changes as rule complexity increases.
 
+  ### Severity Storage
+  Severity is stored directly as NVARCHAR.
+ Reason:
+- The number of severity levels is small and stable.
+- No additional lookup table is required in Version 1.0.
+- This simplifies the data model.
+Future versions may replace it with a lookup table if business requirements change.
+
 ## Consequences
 
 Advantages
