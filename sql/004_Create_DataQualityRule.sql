@@ -34,6 +34,9 @@ Design Decisions
 
 ✔ IsEnabled allows disabling a rule without deleting it.
 
+✔ RuleExpression uses NVARCHAR(MAX)
+to support simple and complex validation rules.
+
 =========================================================
 */
 CREATE TABLE dbo.DataQualityRule
