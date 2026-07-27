@@ -1,8 +1,8 @@
-# ADR-001
+# ADR-002
 
 ## Title
 
-Project Repository Structure
+DataSource Represents a Business Data Source
 
 ## Status
 
@@ -10,116 +10,114 @@ Accepted
 
 ## Context
 
-The EDIP project requires a clear, maintainable, and scalable repository structure.
+The EDIP system integrates data from multiple business systems.
 
-The repository must support:
+A business data source may change its physical implementation over time.
 
-- Documentation
-- Database Design
-- SQL Scripts
-- Python Development
-- Testing
-- Sample Data
-- Future Expansion
+Examples:
 
-A consistent structure is required to simplify project maintenance and collaboration.
+- SQL Server
+- Oracle
+- PostgreSQL
+- REST API
+- CSV Files
+- Sensor Network
+
+Although the storage technology may change, the business source remains the same.
+
+For example:
+
+The Meteorological Organization is still the same business source whether its data is stored in SQL Server today or PostgreSQL tomorrow.
 
 ---
 
 ## Decision
 
-The following repository structure is adopted as the standard for the EDIP project.
+DataSource represents a **logical business source**, not a physical database.
 
-```
-EDIP/
-│
-├── docs/
-│   ├── architecture/
-│   ├── database/
-│   │   └── entities/
-│   ├── diagrams/
-│   └── requirements/
-│
-├── sql/
-├── python/
-├── tests/
-├── sample-data/
-├── scripts/
-│
-└── README.md
-```
+A DataSource identifies the owner and business origin of the data.
 
-This structure will remain unchanged unless a major architectural change is approved.
+All physical access information is managed through the Connection entity.
+
+Relationship:
+
+DataSource (1) -------- (N) Connection
 
 ---
 
 ## Design Decisions
 
-### DD-001 Documentation Separation
+### DD-001 Business Independence
 
 **Decision**
 
-Documentation is separated from implementation.
+DataSource is independent of database technology.
 
 **Reason**
 
-Business documentation, architecture documents and source code have different purposes and should evolve independently.
+Changing database technology must not require changing the business model.
 
 ---
 
-### DD-002 SQL Separation
+### DD-002 Physical Access Separation
 
 **Decision**
 
-All SQL scripts are stored inside the **sql** folder.
+Connection information is separated from DataSource.
 
 **Reason**
 
-Database objects should be version-controlled independently from application code.
+Business information and technical connection information have different responsibilities.
 
 ---
 
-### DD-003 Python Separation
+### DD-003 Multiple Connections
 
 **Decision**
 
-Python source code is stored inside the **python** folder.
+One DataSource may contain multiple Connections.
 
 **Reason**
 
-Application logic should remain independent from database scripts and documentation.
+The same business source may provide:
+
+- Production Database
+- Test Database
+- Backup Database
+- REST API
+
+All belong to the same business source.
 
 ---
 
-### DD-004 Architecture Documents
+### DD-004 Business Ownership
 
 **Decision**
 
-Architecture Decision Records (ADR) are stored under:
-
-```
-docs/architecture
-```
+Owner information belongs to DataSource.
 
 **Reason**
 
-Architectural decisions must be documented separately from entity definitions.
+Ownership is a business characteristic, not a technical connection property.
 
 ---
 
-### DD-005 Entity Documentation
+### DD-005 Operational Status
 
 **Decision**
 
-Each Entity has one documentation file inside:
+Operational status is stored in DataSource.
 
-```
-docs/database/entities
-```
+Examples:
+
+- Active
+- Inactive
+- Archived
+- Maintenance
 
 **Reason**
 
-Each business entity should have a single authoritative definition.
+The business source itself may become inactive while its historical information remains available.
 
 ---
 
@@ -127,13 +125,13 @@ Each business entity should have a single authoritative definition.
 
 ### Advantages
 
-- Clean project organization.
-- Easier maintenance.
-- Easier onboarding of new developers.
-- Supports future expansion.
-- Suitable for Git version control.
+- Independent from database technology.
+- Easier migration.
+- Better scalability.
+- Clear separation between business and technical layers.
+- Supports multiple physical connections.
 
 ### Disadvantages
 
-- More folders at the beginning of the project.
-- Requires discipline to keep files in their correct locations.
+- Requires an additional Connection entity.
+- Adds one extra relationship to the data model.
