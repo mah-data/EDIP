@@ -1,4 +1,32 @@
+/*
+=========================================================
+Table : Connection
+=========================================================
 
+Purpose
+-------
+Represents a physical connection.
+
+Architecture Decisions
+----------------------
+
+ADR-003
+One DataSource can have many Connections.
+
+ADR-004
+Credentials are stored separately.
+
+Design Decisions
+----------------
+
+✔ Password is NOT stored here.
+
+✔ CredentialID references secure credentials.
+
+✔ Timeout default = 30 seconds.
+
+=========================================================
+*/
 CREATE TABLE dbo.Connection
 (
     ConnectionID INT IDENTITY(1,1) NOT NULL,
