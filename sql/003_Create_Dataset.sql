@@ -1,3 +1,35 @@
+/*
+=========================================================
+Table : Dataset
+=========================================================
+
+Purpose
+-------
+Represents logical data collections.
+
+Architecture Decisions
+----------------------
+
+Dataset belongs to one Connection.
+
+One Connection can have many Datasets.
+
+Design Decisions
+----------------
+
+✔ DatasetName is logical.
+
+✔ OriginalObjectName stores physical object name.
+
+✔ Dataset can represent
+   Table
+   View
+   API
+   CSV
+   Stream
+
+=========================================================
+*/
 CREATE TABLE dbo.Dataset
 (
     DatasetID INT IDENTITY(1,1) NOT NULL,
