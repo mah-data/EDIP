@@ -1,45 +1,37 @@
 /*
 =========================================================
 Table : DataQualityRule
-Version : 1.0
 Project : EDIP
+Version : 1.0
 =========================================================
 
 Purpose
 -------
-Stores data validation rules.
+Stores validation rules used to evaluate Dataset quality.
 
 Description
 -----------
-Each Dataset may have multiple validation rules.
+Each rule belongs to one Dataset.
+Rules are executed by the Data Quality Engine.
 
-Architecture Decisions
-----------------------
-
+Architecture Decision
+---------------------
 ADR-006
-
-Each Rule belongs to exactly one Dataset.
-
-Rules are stored independently.
+Data Quality Rule Engine
 
 Design Decisions
 ----------------
 
-✔ RuleExpression stores executable validation logic.
+- RuleExpression is stored as NVARCHAR(MAX)
+  to support simple and complex validation logic.
 
-✔ Severity is stored as text.
+- Severity is stored as NVARCHAR
+  because severity levels are limited in Version 1.0.
 
-✔ IsBlocking determines whether invalid data
-  should be rejected.
+- IsEnabled allows disabling rules without deleting them.
 
-✔ IsEnabled allows disabling a rule without deleting it.
-
-✔ RuleExpression uses NVARCHAR(MAX)
-to support simple and complex validation rules.
-✔ Severity is stored as NVARCHAR.
-Reason:
-Small fixed list.
-Lookup table is unnecessary in Version 1.0.
+- IsBlocking determines whether invalid data
+  should stop processing.
 
 =========================================================
 */
@@ -73,8 +65,10 @@ CREATE TABLE dbo.DataQualityRule
 
     CreatedBy NVARCHAR(100) NOT NULL,
 
+
     CONSTRAINT PK_DataQualityRule
         PRIMARY KEY CLUSTERED (RuleID),
+
 
     CONSTRAINT FK_DataQualityRule_Dataset
         FOREIGN KEY (DatasetID)
