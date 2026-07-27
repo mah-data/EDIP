@@ -25,6 +25,13 @@ Each rule contains:
 - RuleExpression
 - Severity
 - Blocking Mode
+- RuleExpression is stored as NVARCHAR(MAX).
+
+Reason:
+
+- Validation rules may vary in length.
+- Simple rules (e.g. `Temperature IS NOT NULL`) and complex rules (multiple conditions) are both supported.
+- Using NVARCHAR(MAX) avoids future schema changes as rule complexity increases.
 
 ## Consequences
 
