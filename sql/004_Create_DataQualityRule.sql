@@ -36,6 +36,10 @@ Design Decisions
 
 ✔ RuleExpression uses NVARCHAR(MAX)
 to support simple and complex validation rules.
+✔ Severity is stored as NVARCHAR.
+Reason:
+Small fixed list.
+Lookup table is unnecessary in Version 1.0.
 
 =========================================================
 */
