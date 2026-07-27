@@ -10,38 +10,124 @@ Accepted
 
 ## Context
 
-Data may originate from different technologies.
+The EDIP system must collect data from different physical technologies.
 
-Examples
+Examples:
 
-- SQL Table
-- SQL View
-- REST API
-- CSV File
-- Excel File
-- Stream
+- SQL Tables
+- SQL Views
+- CSV Files
+- Excel Files
+- REST APIs
+- XML
+- JSON
+- Sensor Streams
 
-Users should not depend on physical storage names.
+Regardless of how the data is physically stored, EDIP should work with a unified logical object.
+
+Users should work with logical datasets instead of physical database objects.
+
+---
 
 ## Decision
 
-Dataset is a logical object.
+Dataset represents a **logical collection of related data**.
 
-Dataset stores both:
+A Dataset is independent of physical storage technology.
 
-- DatasetName
-- OriginalObjectName
+Each Dataset belongs to exactly one Connection.
 
-Dataset belongs to one Connection.
+Relationship:
+
+Connection (1) -------- (N) Dataset
+
+---
+
+## Design Decisions
+
+### DD-001 Logical Dataset
+
+**Decision**
+
+Dataset represents a logical business object.
+
+**Reason**
+
+Users should not depend on physical database structures.
+
+---
+
+### DD-002 Physical Object Name
+
+**Decision**
+
+Dataset stores the original physical object name.
+
+Examples:
+
+- dbo.WeatherObservation
+- station_data.csv
+- api/weather/current
+
+**Reason**
+
+EDIP must know where data originates while presenting a logical name to users.
+
+---
+
+### DD-003 Dataset Name
+
+**Decision**
+
+Each Dataset has a logical DatasetName.
+
+Examples:
+
+- Surface Observation
+- Synoptic Observation
+- Rainfall Data
+
+**Reason**
+
+Logical names are easier for users to understand than physical table names.
+
+---
+
+### DD-004 Dataset Ownership
+
+**Decision**
+
+Each Dataset belongs to one Connection.
+
+**Reason**
+
+A Dataset can only be retrieved through one physical connection.
+
+---
+
+### DD-005 Technology Independence
+
+**Decision**
+
+Dataset does not store database-specific implementation details.
+
+**Reason**
+
+Changing the storage technology should not affect the business model.
+
+---
 
 ## Consequences
 
-Advantages
+### Advantages
 
-- Technology independent
-- Easier migration
-- Better user experience
+- Independent from database technology.
+- Easier migration.
+- Cleaner business model.
+- Supports multiple storage technologies.
+- Easier integration with future systems.
 
-Disadvantages
+### Disadvantages
 
-- Requires logical naming
+- Requires mapping between logical and physical names.
+- Slightly more metadata must be maintained.
