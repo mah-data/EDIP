@@ -19,34 +19,29 @@ INSERT INTO dbo.DataSource
 )
 VALUES
 (
-    N'Weather System',
-    N'Meteorological',
-    N'National Meteorological Organization',
+    N'SRC001',
+    N'Generic',
+    N'System',
     N'Production',
-    N'Main operational weather data source',
+    N'Sample Data Source 001',
     1,
     N'System'
-);
-
-GO
-
-INSERT INTO dbo.DataSource
+),
 (
-    SourceName,
-    SourceType,
-    Owner,
-    Status,
-    Description,
-    IsActive,
-    CreatedBy
-)
-VALUES
-(
-    N'Climate Archive',
-    N'Archive',
-    N'Climate Department',
+    N'SRC002',
+    N'Generic',
+    N'System',
     N'Production',
-    N'Historical climate observations',
+    N'Sample Data Source 002',
+    1,
+    N'System'
+),
+(
+    N'SRC003',
+    N'Generic',
+    N'System',
+    N'Production',
+    N'Sample Data Source 003',
     1,
     N'System'
 );
@@ -71,44 +66,40 @@ INSERT INTO dbo.Connection
 VALUES
 (
     1,
-    N'Weather SQL',
-    N'SQL Server',
-    N'SRV-WEATHER',
-    N'WeatherDB',
+    N'CON001',
+    N'Database',
+    N'SERVER001',
+    N'DATABASE001',
     1,
     1,
     N'System'
-);
-
-GO
-
-INSERT INTO dbo.Connection
-(
-    DataSourceID,
-    ConnectionName,
-    ConnectionType,
-    ServerName,
-    DatabaseName,
-    IsDefault,
-    IsActive,
-    CreatedBy
-)
-VALUES
+),
 (
     2,
-    N'Climate Archive SQL',
-    N'SQL Server',
-    N'SRV-CLIMATE',
-    N'ClimateDB',
+    N'CON002',
+    N'API',
+    N'ENDPOINT001',
+    N'API001',
+    1,
+    1,
+    N'System'
+),
+(
+    3,
+    N'CON003',
+    N'File',
+    N'FILESERVER001',
+    N'FILE001',
     1,
     1,
     N'System'
 );
 
 GO
-/*========================================================
-Dataset
-========================================================*/
+
+---------------------------------------------------------
+-- Dataset
+---------------------------------------------------------
 
 INSERT INTO dbo.Dataset
 (
@@ -124,44 +115,50 @@ INSERT INTO dbo.Dataset
 VALUES
 (
     1,
-    N'Synoptic Observation',
+    N'DST001',
     N'Table',
     N'dbo',
-    N'tblSynopticObservation',
+    N'OBJ001',
     N'Daily',
     1,
     N'System'
-);
-
-GO
-
-INSERT INTO dbo.Dataset
+),
 (
-    ConnectionID,
-    DatasetName,
-    DatasetType,
-    SchemaName,
-    ObjectName,
-    RefreshPolicy,
-    IsActive,
-    CreatedBy
-)
-VALUES
-(
-    2,
-    N'Climate History',
+    1,
+    N'DST002',
     N'View',
     N'dbo',
-    N'vwClimateHistory',
-    N'Monthly',
+    N'OBJ002',
+    N'Hourly',
+    1,
+    N'System'
+),
+(
+    2,
+    N'DST003',
+    N'API',
+    N'api',
+    N'OBJ003',
+    N'Realtime',
+    1,
+    N'System'
+),
+(
+    3,
+    N'DST004',
+    N'File',
+    N'file',
+    N'OBJ004',
+    N'Weekly',
     1,
     N'System'
 );
 
 GO
-/*========================================================
-DataQualityRule
-========================================================*/
+
+---------------------------------------------------------
+-- DataQualityRule
+---------------------------------------------------------
 
 INSERT INTO dbo.DataQualityRule
 (
@@ -176,56 +173,46 @@ INSERT INTO dbo.DataQualityRule
 VALUES
 (
     1,
-    N'Temperature Range',
-    N'Range',
-    N'Temperature BETWEEN -60 AND 60',
+    N'RUL001',
+    N'Completeness',
+    N'Expression001',
     N'High',
     1,
     N'System'
-);
-
-GO
-
-INSERT INTO dbo.DataQualityRule
-(
-    DatasetID,
-    RuleName,
-    RuleType,
-    RuleExpression,
-    Severity,
-    IsActive,
-    CreatedBy
-)
-VALUES
+),
 (
     1,
-    N'Station Code Required',
-    N'NotNull',
-    N'StationCode IS NOT NULL',
+    N'RUL002',
+    N'Uniqueness',
+    N'Expression002',
     N'Critical',
     1,
     N'System'
-);
-
-GO
-
-INSERT INTO dbo.DataQualityRule
-(
-    DatasetID,
-    RuleName,
-    RuleType,
-    RuleExpression,
-    Severity,
-    IsActive,
-    CreatedBy
-)
-VALUES
+),
 (
     2,
-    N'Observation Date Required',
-    N'NotNull',
-    N'ObservationDate IS NOT NULL',
+    N'RUL003',
+    N'Consistency',
+    N'Expression003',
+    N'Medium',
+    1,
+    N'System'
+),
+(
+    3,
+    N'RUL004',
+    N'Validity',
+    N'Expression004',
     N'High',
+    1,
+    N'System'
+),
+(
+    4,
+    N'RUL005',
+    N'Accuracy',
+    N'Expression005',
+    N'Low',
     1,
     N'System'
 );
