@@ -38,3 +38,15 @@ CREATE NONCLUSTERED INDEX IX_Dataset_ObjectName
 ON dbo.Dataset(ObjectName);
 
 GO
+  
+-- DataQualityRule
+
+CREATE NONCLUSTERED INDEX IX_DataQualityRule_DatasetID
+ON dbo.DataQualityRule(DatasetID);
+
+GO
+
+CREATE NONCLUSTERED INDEX IX_DataQualityRule_RuleName
+ON dbo.DataQualityRule(RuleName);
+
+GO
