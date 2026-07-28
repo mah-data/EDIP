@@ -17,3 +17,35 @@ Provide realistic sample data for development, testing and performance tuning.
 2. Connection
 3. Dataset
 4. DataQualityRule
+
+## Sample Scenario
+
+Weather System
+
+    ↓
+
+Weather SQL Connection
+
+    ↓
+
+Synoptic Observation Dataset
+
+    ↓
+
+Temperature Range Rule
+
+--------------------------------------------
+
+Climate Archive
+
+    ↓
+
+Climate Archive SQL Connection
+
+    ↓
+
+Climate History Dataset
+
+    ↓
+
+Observation Date Required Rule
