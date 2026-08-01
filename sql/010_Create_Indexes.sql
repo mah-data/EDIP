@@ -35,7 +35,7 @@ ON dbo.Dataset(DatasetName);
 GO
 
 CREATE NONCLUSTERED INDEX IX_Dataset_ObjectName
-ON dbo.Dataset(ObjectName);
+ON dbo.Dataset(OriginalObjectName);
 
 GO
   
