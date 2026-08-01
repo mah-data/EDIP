@@ -65,5 +65,5 @@ CREATE TABLE dbo.Dataset
 
     CONSTRAINT FK_Dataset_Connection
         FOREIGN KEY (ConnectionID)
-        REFERENCES dbo.Connection(ConnectionID)
+        REFERENCES dbo.[Connection](ConnectionID)
 );
