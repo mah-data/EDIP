@@ -4,72 +4,73 @@
 
 PK_Dataset
 (Clustered Index)
+# Dataset Index Design
 
----
+## Primary Key
+
+| Index Name | Type            |
+|------------|-----------------|
+| PK_Dataset | Clustered Index |
+
+-------------------------------------------------
 
 ## Nonclustered Indexes
 
 ### IX_Dataset_ConnectionID
 
-Purpose
+| Property | Description                                 |
+|----------|---------------------------------------------|
+| Column   | ConnectionID                                |
+| Type     | Nonclustered Index                          |
+| Purpose  | Retrieve datasets belonging to a connection |
 
-Retrieve datasets belonging to a connection.
+Example Query:
 
-Example
+    SELECT *
+    FROM dbo.Dataset
+    WHERE ConnectionID = 1;
 
-SELECT *
-FROM dbo.Dataset
-WHERE ConnectionID = 10;
+Reason:
 
-Reason
+ConnectionID is frequently used in relationship queries and join operations.
 
-Frequently used in parent-child navigation.
-
----
+-------------------------------------------------
 
 ### IX_Dataset_DatasetName
 
-Purpose
+| Property | Description                    |
+|----------|--------------------------------|
+| Column   | DatasetName                    |
+| Type     | Nonclustered Index             |
+| Purpose  | Search dataset by logical name |
 
-Search datasets by name.
+Example Query:
 
-Example
+    SELECT *
+    FROM dbo.Dataset
+    WHERE DatasetName = 'DST001';
 
-SELECT *
-FROM dbo.Dataset
-WHERE DatasetName='SynopticObservation';
+Reason:
 
-Reason
+DatasetName is a common identifier used for dataset discovery.
 
-Dataset names are commonly searched.
+-------------------------------------------------
 
+## Columns Without Additional Index
+
+| Column           | Reason                   |
+|------------------|--------------------------|
+| DatasetType      | Limited number of values |
+| Status           | Low selectivity          |
+| DataFormat       | Limited filtering usage  |
+| RefreshFrequency | Low search frequency     |
+
+-------------------------------------------------
+
+## Design Notes
+
+- Primary key is implemented as a clustered index.
+- ConnectionID supports efficient parent-child relationship queries.
+- Additional indexes can be added based on workload analysis and execution plans.
 ---
 
-### IX_Dataset_ObjectName
-
-Purpose
-
-Search datasets by physical database object.
-
-Example
-
-SELECT *
-FROM dbo.Dataset
-WHERE ObjectName='tblObservation';
-
-Reason
-
-Useful for metadata exploration and maintenance.
-
----
-
-## No Index
-
-The following columns do not require indexes.
-
-- DatasetType
-- IsActive
-
-Reason
-
-Low selectivity and low search frequency.

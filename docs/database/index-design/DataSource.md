@@ -2,40 +2,46 @@
 
 ## Primary Key
 
-PK_DataSource
-(Clustered Index)
+| Index Name    | Type            |
+|---------------|-----------------|
+| PK_DataSource | Clustered Index |
 
----
+-------------------------------------------------
 
 ## Nonclustered Indexes
 
 ### IX_DataSource_SourceName
 
-Purpose
+| Property | Description                              |
+|----------|------------------------------------------|
+| Column   | SourceName                               |
+| Type     | Nonclustered Index                       |
+| Purpose  | Improve search performance by SourceName |
 
-Search DataSource by SourceName.
+Example Query:
 
-Example
+    SELECT *
+    FROM dbo.DataSource
+    WHERE SourceName = 'SRC001';
 
-SELECT *
-FROM dbo.DataSource
-WHERE SourceName='WeatherDB';
+Reason:
 
-Reason
+SourceName is a common lookup attribute and can improve source identification queries.
 
-SourceName has high selectivity and is expected to be frequently searched.
+-------------------------------------------------
 
----
+## Columns Without Additional Index
 
-## No Index
+| Column     | Reason                            |
+|------------|-----------------------------------|
+| SourceType | Low selectivity                   |
+| Owner      | Limited filtering usage           |
+| Status     | Limited number of possible values |
 
-The following columns do not require indexes.
+-------------------------------------------------
 
-- SourceType
-- Owner
-- Status
-- IsActive
+## Design Notes
 
-Reason
-
-Low selectivity or infrequent search predicates.
+- Primary key is implemented as a clustered index.
+- Additional indexes are created based on query access patterns.
+- Index strategy can evolve based on execution plan analysis and workload changes.

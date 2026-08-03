@@ -2,58 +2,67 @@
 
 ## Primary Key
 
-PK_DataQualityRule
+| Index Name         | Type            |
+|--------------------|-----------------|
+| PK_DataQualityRule | Clustered Index |
 
-(Clustered Index)
-
----
+-------------------------------------------------
 
 ## Nonclustered Indexes
 
 ### IX_DataQualityRule_DatasetID
 
-Purpose
+| Property | Description                                   |
+|----------|-----------------------------------------------|
+| Column   | DatasetID                                     |
+| Type     | Nonclustered Index                            |
+| Purpose  | Retrieve quality rules belonging to a dataset |
 
-Retrieve all rules belonging to a dataset.
+Example Query:
 
-Example
+    SELECT *
+    FROM dbo.DataQualityRule
+    WHERE DatasetID = 1;
 
-SELECT *
-FROM dbo.DataQualityRule
-WHERE DatasetID = 15;
+Reason:
 
-Reason
+DatasetID is frequently used in relationship queries and rule retrieval operations.
 
-Frequently used when validating a dataset.
+-------------------------------------------------
 
----
+### IX_DataQualityRule_RuleCategory
 
-### IX_DataQualityRule_RuleName
+| Property | Description                       |
+|----------|-----------------------------------|
+| Column   | RuleCategory                      |
+| Type     | Nonclustered Index                |
+| Purpose  | Filter rules by quality category  |
 
-Purpose
+Example Query:
 
-Search a rule by its name.
+    SELECT *
+    FROM dbo.DataQualityRule
+    WHERE RuleCategory = 'Completeness';
 
-Example
+Reason:
 
-SELECT *
-FROM dbo.DataQualityRule
-WHERE RuleName='Temperature Range';
+RuleCategory can be used for grouping and filtering quality validation rules.
 
-Reason
+-------------------------------------------------
 
-Rule names are commonly used by administrators.
+## Columns Without Additional Index
 
----
+| Column     | Reason                            |
+|------------|-----------------------------------|
+| Severity   | Limited number of possible values |
+| IsBlocking | BIT column with low selectivity   |
+| IsEnabled  | BIT column with low selectivity   |
 
-## No Index
+-------------------------------------------------
 
-No indexes are required for
+## Design Notes
 
-- RuleType
-- Severity
-- IsActive
-
-Reason
-
-Low selectivity and low search frequency.
+- Primary key is implemented as a clustered index.
+- DatasetID supports efficient parent-child relationship queries.
+- BIT columns are not indexed in Version 1 due to low selectivity.
+- Index strategy can evolve based on workload analysis and execution plan review.

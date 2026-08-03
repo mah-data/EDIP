@@ -2,9 +2,9 @@
 
 ## Primary Key
 
-PK_Connection
-
-(Clustered Index)
+| Index Name    | Type            |
+|---------------|-----------------|
+| PK_Connection | Clustered Index |
 
 ---
 
@@ -12,47 +12,53 @@ PK_Connection
 
 ### IX_Connection_DataSourceID
 
-Purpose
+| Property | Description                                        |
+|----------|----------------------------------------------------|
+| Column   | DataSourceID                                       |
+| Type     | Nonclustered Index                                 |
+| Purpose  | Retrieve all connections belonging to a DataSource |
 
-Retrieve all connections belonging to a DataSource.
+Example Query:
 
-Example
-
+```sql
 SELECT *
-FROM dbo.Connection
+FROM dbo.[Connection]
 WHERE DataSourceID = 1;
+```
+Reason:
 
-Reason
-
-This is expected to be one of the most frequent queries.
-
+DataSourceID is frequently used in relationship queries and join operations.
 ---
 
-### IX_Connection_ConnectionName
+IX_Connection_ConnectionName
 
-Purpose
+| Property | Description               |
+| -------- | ------------------------- |
+| Column   | ConnectionName            |
+| Type     | Nonclustered Index        |
+| Purpose  | Search connection by name |
 
-Search a connection by name.
-
-Example
+```
+Example Query:
 
 SELECT *
-FROM dbo.Connection
-WHERE ConnectionName='Main Oracle';
+FROM dbo.[Connection]
+WHERE ConnectionName = 'Main Connection';
+```
+Reason:
 
-Reason
-
-Connection names are frequently used by administrators.
-
+ConnectionName is commonly used by administrators to identify and search connections.
 ---
+Columns Without Additional Index
 
-## No Index
+| Column         | Reason                            |
+| -------------- | --------------------------------- |
+| ConnectionType | Low selectivity                   |
+| Status         | Limited number of possible values |
+| Environment    | Limited filtering usage           |
 
-No additional indexes are required for:
-
-- ConnectionType
-- IsActive
-
-Reason
-
-Low selectivity and low search frequency.
+```
+Design Notes
+Primary key is implemented as a clustered index.
+Foreign key columns used in frequent joins should be considered for indexing.
+Index strategy can evolve based on workload changes and execution plan analysis.
