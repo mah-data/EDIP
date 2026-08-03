@@ -1,1 +1,6 @@
 
+DataSource 1 ---- N Connection
+
+Connection 1 ---- N Dataset
+
+Dataset 1 ---- N DataQualityRule
