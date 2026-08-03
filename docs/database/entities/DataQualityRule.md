@@ -2,45 +2,82 @@
 
 ## Purpose
 
-Represents a validation rule used to evaluate the quality of data stored in a Dataset.
+Represents validation rules used to evaluate the quality of data stored in a Dataset.
+
+DataQualityRule defines the metadata required by the Data Quality Engine to validate data assets.
+
+---
+
+## Table Information
+
+| Property | Value |
+|---|---|
+| Table Name | dbo.DataQualityRule |
+| Primary Key | RuleID |
+| Version | 1.0 |
+
+---
 
 ## Description
 
-DataQualityRule defines business and technical rules that are executed by the Data Quality Engine.
+DataQualityRule stores business and technical validation rules applied to Datasets.
 
-Rules are applied to Datasets to check data correctness, completeness, consistency, validity, and reliability before the data is used for analysis, reporting, or prediction.
+Rules can evaluate different quality dimensions including:
+
+- Completeness
+- Consistency
+- Validity
+- Accuracy
+- Uniqueness
 
 A Dataset can have multiple DataQualityRules.
 
+---
+
 ## Attributes
 
-- RuleID
-- DatasetID
-- RuleName
-- RuleCategory
-- RuleExpression
-- Severity
-- IsBlocking
-- IsEnabled
-- Description
-- CreatedDate
-- CreatedBy
+| Column | Description |
+|---|---|
+| RuleID | Unique identifier of the quality rule |
+| DatasetID | Reference to the related Dataset |
+| RuleName | Name of the validation rule |
+| RuleCategory | Quality dimension category |
+| RuleExpression | Validation logic expression |
+| Severity | Importance level of validation failure |
+| IsBlocking | Determines whether failure blocks processing |
+| IsEnabled | Determines whether the rule is active |
+| Description | Additional information about the rule |
+| CreatedDate | Record creation timestamp |
+| CreatedBy | User or process that created the record |
+
+---
 
 ## Business Rules
 
 - Every DataQualityRule belongs to exactly one Dataset.
 - A Dataset can have multiple DataQualityRules.
-- RuleExpression contains the validation logic.
-- Severity indicates the importance level of a validation failure.
-- IsBlocking determines whether invalid data should be rejected.
-- Disabled rules remain stored and can be activated again.
+- RuleExpression stores the validation logic definition.
+- Severity indicates the importance of a validation failure.
+- IsBlocking determines whether invalid data should stop processing.
+- Disabled rules remain stored and can be enabled again.
+
+---
 
 ## Relationships
 
 Dataset (1) ---- (N) DataQualityRule
 
+
+---
+
 ## Notes
 
 DataQualityRule stores metadata about validation rules.
 
-Execution of rules is handled by the Data Quality Engine and is not part of this entity.
+Execution of validation logic is handled by the Data Quality Engine and is outside the responsibility of this entity.
+
+---
+
+## Related ADRs
+
+- ADR-006 Data Quality Rule Engine
