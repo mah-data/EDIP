@@ -1,11 +1,16 @@
 /*========================================================
 EDIP
 Sample Data
+Version : 1.0
 ========================================================*/
 
----------------------------------------------------------
--- DataSource
----------------------------------------------------------
+USE EDIP;
+GO
+
+
+/*========================================================
+DataSource
+========================================================*/
 
 INSERT INTO dbo.DataSource
 (
@@ -14,206 +19,248 @@ INSERT INTO dbo.DataSource
     Owner,
     Status,
     Description,
-    IsActive,
     CreatedBy
 )
 VALUES
 (
-    N'SRC001',
-    N'Generic',
-    N'System',
+    N'Enterprise ERP',
+    N'Database',
+    N'Business Unit',
     N'Production',
-    N'Sample Data Source 001',
-    1,
+    N'Enterprise Resource Planning data source',
     N'System'
 ),
 (
-    N'SRC002',
-    N'Generic',
-    N'System',
+    N'CRM Platform',
+    N'API',
+    N'Sales Department',
     N'Production',
-    N'Sample Data Source 002',
-    1,
+    N'Customer Relationship Management service',
     N'System'
 ),
 (
-    N'SRC003',
-    N'Generic',
-    N'System',
+    N'Shared File Repository',
+    N'File',
+    N'Operations Department',
     N'Production',
-    N'Sample Data Source 003',
-    1,
+    N'Business documents and shared files',
     N'System'
 );
 
 GO
 
----------------------------------------------------------
--- Connection
----------------------------------------------------------
 
-INSERT INTO dbo.Connection
+/*========================================================
+Connection
+========================================================*/
+
+INSERT INTO dbo.[Connection]
 (
     DataSourceID,
     ConnectionName,
     ConnectionType,
     ServerName,
     DatabaseName,
-    IsDefault,
-    IsActive,
+    Port,
+    AuthenticationType,
+    CredentialID,
+    Environment,
+    Status,
+    Description,
     CreatedBy
 )
 VALUES
 (
     1,
-    N'CON001',
-    N'Database',
-    N'SERVER001',
-    N'DATABASE001',
-    1,
-    1,
+    N'ERP SQL Connection',
+    N'SQL Server',
+    N'ERP-SERVER01',
+    N'ERPDB',
+    1433,
+    N'SQL Authentication',
+    NULL,
+    N'Production',
+    N'Active',
+    N'Primary ERP database connection',
     N'System'
 ),
 (
     2,
-    N'CON002',
-    N'API',
-    N'ENDPOINT001',
-    N'API001',
-    1,
-    1,
+    N'CRM API Connection',
+    N'REST API',
+    N'api.company.com',
+    NULL,
+    443,
+    N'API Key',
+    NULL,
+    N'Production',
+    N'Active',
+    N'CRM service API connection',
     N'System'
 ),
 (
     3,
-    N'CON003',
-    N'File',
-    N'FILESERVER001',
-    N'FILE001',
-    1,
-    1,
+    N'File Repository Connection',
+    N'File System',
+    N'FILESERVER01',
+    NULL,
+    NULL,
+    N'Windows Authentication',
+    NULL,
+    N'Production',
+    N'Active',
+    N'Shared file repository connection',
     N'System'
 );
 
 GO
 
----------------------------------------------------------
--- Dataset
----------------------------------------------------------
+
+/*========================================================
+Dataset
+========================================================*/
 
 INSERT INTO dbo.Dataset
 (
     ConnectionID,
     DatasetName,
     DatasetType,
-    SchemaName,
-    ObjectName,
-    RefreshPolicy,
-    IsActive,
+    OriginalObjectName,
+    PrimaryKeyColumn,
+    RefreshMethod,
+    RefreshFrequency,
+    DataFormat,
+    Status,
+    Description,
     CreatedBy
 )
 VALUES
 (
     1,
-    N'DST001',
+    N'Customer Master Data',
     N'Table',
-    N'dbo',
-    N'OBJ001',
+    N'Customers',
+    N'CustomerID',
+    N'Full Load',
     N'Daily',
-    1,
+    N'Relational',
+    N'Active',
+    N'Customer master information from ERP database',
     N'System'
 ),
 (
     1,
-    N'DST002',
-    N'View',
-    N'dbo',
-    N'OBJ002',
+    N'Sales Transactions',
+    N'Table',
+    N'SalesOrders',
+    N'OrderID',
+    N'Incremental',
     N'Hourly',
-    1,
+    N'Relational',
+    N'Active',
+    N'Sales transaction data from ERP database',
     N'System'
 ),
 (
     2,
-    N'DST003',
+    N'Customer Service API',
     N'API',
-    N'api',
-    N'OBJ003',
+    N'/customers',
+    NULL,
+    N'Full Load',
     N'Realtime',
-    1,
+    N'JSON',
+    N'Active',
+    N'Customer information received from API',
     N'System'
 ),
 (
     3,
-    N'DST004',
-    N'File',
-    N'file',
-    N'OBJ004',
-    N'Weekly',
-    1,
+    N'Product Catalog File',
+    N'CSV',
+    N'products.csv',
+    N'ProductID',
+    N'Full Load',
+    N'Daily',
+    N'CSV',
+    N'Active',
+    N'Product catalog file source',
     N'System'
 );
 
 GO
 
----------------------------------------------------------
--- DataQualityRule
----------------------------------------------------------
+
+/*========================================================
+DataQualityRule
+========================================================*/
 
 INSERT INTO dbo.DataQualityRule
 (
     DatasetID,
     RuleName,
-    RuleType,
+    RuleCategory,
     RuleExpression,
     Severity,
-    IsActive,
+    IsBlocking,
+    IsEnabled,
+    Description,
     CreatedBy
 )
 VALUES
 (
     1,
-    N'RUL001',
+    N'Customer ID Required',
     N'Completeness',
-    N'Expression001',
-    N'High',
+    N'CustomerID IS NOT NULL',
+    N'Critical',
     1,
+    1,
+    N'Customer identifier must always exist',
     N'System'
 ),
 (
     1,
-    N'RUL002',
-    N'Uniqueness',
-    N'Expression002',
-    N'Critical',
+    N'Customer Name Required',
+    N'Completeness',
+    N'CustomerName IS NOT NULL',
+    N'High',
+    0,
     1,
+    N'Customer name should not be empty',
     N'System'
 ),
 (
     2,
-    N'RUL003',
-    N'Consistency',
-    N'Expression003',
-    N'Medium',
+    N'Order Amount Positive',
+    N'Validity',
+    N'OrderAmount >= 0',
+    N'High',
     1,
+    1,
+    N'Sales amount cannot be negative',
     N'System'
 ),
 (
     3,
-    N'RUL004',
-    N'Validity',
-    N'Expression004',
-    N'High',
+    N'API Response Validation',
+    N'Availability',
+    N'ResponseCode = 200',
+    N'Medium',
+    0,
     1,
+    N'API response must be successful',
     N'System'
 ),
 (
     4,
-    N'RUL005',
-    N'Accuracy',
-    N'Expression005',
-    N'Low',
+    N'CSV File Structure Validation',
+    N'Consistency',
+    N'RequiredColumnsExist = TRUE',
+    N'Medium',
+    0,
     1,
+    N'CSV file must contain required columns',
     N'System'
 );
 
