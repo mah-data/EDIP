@@ -16,14 +16,22 @@ def test_metadata_extractor():
 
     extractor = MetadataExtractor(connector)
 
-    data_sources = extractor.get_data_sources()
+    metadata = {
+        "DataSource": extractor.get_data_sources(),
+        "Connection": extractor.get_connections(),
+        "Dataset": extractor.get_datasets(),
+        "DataQualityRule": extractor.get_quality_rules()
+    }
 
-    for row in data_sources:
-        print(row)
+    for name, rows in metadata.items():
+
+        print("\n---", name, "---")
+
+        for row in rows:
+            print(row)
 
     connector.close()
 
 
 if __name__ == "__main__":
     test_metadata_extractor()
-
