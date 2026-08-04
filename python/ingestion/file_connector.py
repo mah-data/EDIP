@@ -1,5 +1,5 @@
 import pandas as pd
-from ingestion.base_connector import BaseConnector
+from python.ingestion.base_connector import BaseConnector
 
 
 class FileConnector(BaseConnector):

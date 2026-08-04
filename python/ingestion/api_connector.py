@@ -1,5 +1,5 @@
 import requests
-from ingestion.base_connector import BaseConnector
+from python.ingestion.base_connector import BaseConnector
 
 
 class APIConnector(BaseConnector):

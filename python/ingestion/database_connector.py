@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, text
-from ingestion.base_connector import BaseConnector
+from python.ingestion.base_connector import BaseConnector
 
 
 class DatabaseConnector(BaseConnector):
