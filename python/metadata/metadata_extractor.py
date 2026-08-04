@@ -118,3 +118,12 @@ class MetadataExtractor:
             )
             for row in rows
         ]
+
+    def extract_all(self):
+
+        return {
+            "data_sources": self.get_data_sources(),
+            "connections": self.get_connections(),
+            "datasets": self.get_datasets(),
+            "quality_rules": self.get_quality_rules()
+        }
