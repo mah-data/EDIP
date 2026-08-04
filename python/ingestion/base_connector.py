@@ -1,12 +1,13 @@
-from abc import ABC,abstractmethod
+from abc import ABC, abstractmethod
+
 
 class BaseConnector(ABC):
     """
-    Abstract base class for all data source  connectors.        
+    Abstract base class for all data source connectors.
     """
 
     def __init__(self, source_name):
-       self.source_name = source_name
+        self.source_name = source_name
 
     @abstractmethod
     def connect(self):
@@ -19,4 +20,4 @@ class BaseConnector(ABC):
     @abstractmethod
     def close(self):
         pass
-        
+
