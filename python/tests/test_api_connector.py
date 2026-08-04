@@ -1,12 +1,23 @@
-from ingestion.api_connector import APIConnector
+from python.ingestion.api_connector import APIConnector
 
 
-connector = APIConnector(
-    "JSON API Demo",
-    "https://jsonplaceholder.typicode.com/users"
-)
+def main():
+    connector = APIConnector(
+        "JSON API Demo",
+        "https://jsonplaceholder.typicode.com/users"
+    )
 
-data = connector.extract()
+    connector.connect()
 
-for item in data[:3]:
-    print(item)
+    data = connector.extract()
+
+    for item in data[:3]:
+        print(item)
+
+    connector.close()
+
+
+if __name__ == "__main__":
+    main()
+
+
