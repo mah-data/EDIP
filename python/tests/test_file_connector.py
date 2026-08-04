@@ -1,4 +1,4 @@
-from ingestion.file_connector import FileConnector
+from python.ingestion.file_connector import FileConnector
 
 def main():
     connector = FileConnector(
