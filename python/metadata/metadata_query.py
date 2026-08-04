@@ -31,3 +31,29 @@ class MetadataQuery:
             "datasets",
             []
         )
+    
+    def find_datasets_by_source(self, data_source_id):
+
+        datasets = self.metadata.get(
+            "datasets",
+            []
+        )
+
+        return [
+            dataset
+            for dataset in datasets
+            if dataset.data_source_id == data_source_id
+        ]
+
+    def find_quality_rules_by_dataset(self, dataset_id):
+
+        rules = self.metadata.get(
+            "quality_rules",
+            []
+        )
+
+        return [
+            rule
+            for rule in rules
+            if rule.dataset_id == dataset_id
+        ]

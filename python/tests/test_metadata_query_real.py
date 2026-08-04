@@ -28,6 +28,25 @@ def test_metadata_query_real():
     print("\n--- Search Result ---")
     print(result)
 
+    
+    datasets = query.find_datasets_by_source(
+        result.id
+    )
+
+    print("\n--- Datasets ---")
+
+    for dataset in datasets:
+        print(dataset)
+
+    rules = query.find_quality_rules_by_dataset(
+        datasets[0].id
+    )
+
+    print("\n--- Quality Rules ---")
+
+    for rule in rules:
+        print(rule)
+
     connector.close()
 
 
