@@ -4,17 +4,30 @@ from python.ingestion.database_connector import DatabaseConnector
 def test_database_connector():
 
     connector = DatabaseConnector(
-        "EDIP SQLite Demo",
-        "sqlite:///sample-data/edip_demo.db"
+        "EDIP SQL Server",
+        (
+            "mssql+pyodbc://sa:Mahtab5490@CEO/EDIP"
+            "?driver=ODBC+Driver+17+for+SQL+Server"
+        )
     )
 
     connector.connect()
 
-    data = connector.extract(
-        "SELECT * FROM data_source"
-    )
+    queries = {
+        "DataSource": "SELECT * FROM dbo.DataSource",
+        "Connection": "SELECT * FROM dbo.Connection",
+        "Dataset": "SELECT * FROM dbo.Dataset",
+        "DataQualityRule": "SELECT * FROM dbo.DataQualityRule"
+    }
 
-    print(data)
+    for name, query in queries.items():
+
+        print("\n---", name, "---")
+
+        data = connector.extract(query)
+
+        for row in data:
+            print(row)
 
     connector.close()
 
