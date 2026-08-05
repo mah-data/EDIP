@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-
+from python.api.schemas import (DataSourceResponse,DatasetResponse,QualityRuleResponse)
 from python.ingestion.database_connector import DatabaseConnector
 from python.metadata.metadata_extractor import MetadataExtractor
 from python.metadata.metadata_service import MetadataService
@@ -30,7 +30,10 @@ def build_service():
     return MetadataService(metadata)
 
 
-@app.get("/data-sources")
+@app.get(
+    "/data-sources",
+    response_model=list[DataSourceResponse]
+)
 def get_data_sources():
 
     service = build_service()
@@ -39,7 +42,10 @@ def get_data_sources():
 
     return sources
 
-@app.get("/data-sources/{data_source_id}/datasets")
+@app.get(
+    "/data-sources/{data_source_id}/datasets",
+    response_model=list[DatasetResponse]
+)
 def get_datasets(data_source_id: int):
 
     service = build_service()
@@ -50,7 +56,11 @@ def get_datasets(data_source_id: int):
 
     return datasets
 
-@app.get("/datasets/{dataset_id}/quality-rules")
+@app.get(
+    "/datasets/{dataset_id}/quality-rules",
+    response_model=list[QualityRuleResponse]
+)
+def get_quality_rules(dataset_id: int):
 def get_quality_rules(dataset_id: int):
 
     service = build_service()
