@@ -60,33 +60,38 @@ GET /datasets/{id}/quality-rules
 
 Enterprise Data Sources
 
-    |
-    |
-    v
+        |
+        v
+
+Database Connector Layer
+
+        |
+        v
 
 Metadata Extraction Layer
 
-    |
-    |
-    v
+        |
+        v
 
-Metadata Management Layer
+Metadata Models
 
-    |
-    |
-    v
+        |
+        v
+
+Metadata Query Layer
+
+        |
+        v
 
 Metadata Service Layer
 
-    |
-    |
-    v
+        |
+        v
 
 REST API Layer
 
-    |
-    |
-    v
+        |
+        v
 
 Applications / Users
 
