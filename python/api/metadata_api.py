@@ -61,7 +61,6 @@ def get_datasets(data_source_id: int):
     response_model=list[QualityRuleResponse]
 )
 def get_quality_rules(dataset_id: int):
-def get_quality_rules(dataset_id: int):
 
     service = build_service()
 
