@@ -49,3 +49,14 @@ def get_datasets(data_source_id: int):
     )
 
     return datasets
+
+@app.get("/datasets/{dataset_id}/quality-rules")
+def get_quality_rules(dataset_id: int):
+
+    service = build_service()
+
+    rules = service.get_quality_rules(
+        dataset_id
+    )
+
+    return rules
