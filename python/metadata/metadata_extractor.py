@@ -16,7 +16,12 @@ class MetadataExtractor:
 
         rows = self.connector.extract(
             """
-            SELECT *
+            SELECT  DataSourceID, SourceName,
+                    SourceType,
+                    Owner,Status,
+                    Description,
+                    CreatedDate,
+                    CreatedBy
             FROM dbo.DataSource
             """
         )
@@ -77,7 +82,7 @@ class MetadataExtractor:
         return [
             DatasetMetadata(
                 id=row[0],
-                data_source_id=row[1],
+                connection_id=row[1],
                 name=row[2],
                 dataset_type=row[3],
                 location=row[4],

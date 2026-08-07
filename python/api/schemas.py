@@ -17,7 +17,7 @@ class DataSourceResponse(BaseModel):
 class DatasetResponse(BaseModel):
 
     id: int
-    data_source_id: int
+    connection_id: int
     name: str
     dataset_type: str
     location: str

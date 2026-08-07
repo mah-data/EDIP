@@ -1,5 +1,6 @@
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 from python.ingestion.base_connector import BaseConnector
+from python.common.exceptions import DatabaseConnectionError
 
 
 class DatabaseConnector(BaseConnector):
@@ -10,14 +11,52 @@ class DatabaseConnector(BaseConnector):
         self.engine = None
 
     def connect(self):
-        self.engine = create_engine(self.connection_string)
-        return True
+
+        try:
+            self.engine = create_engine(
+                self.connection_string
+            )
+
+            return True
+
+        except Exception as e:
+
+            raise DatabaseConnectionError(
+                f"Unable to connect to database: {e}"
+            )
+
 
     def extract(self, query):
-        with self.engine.connect() as connection:
-            result = connection.execute(text(query))
-            return result.fetchall()
+
+        raw_connection = None
+
+        try:
+
+            raw_connection = self.engine.raw_connection()
+
+            cursor = raw_connection.cursor()
+
+            cursor.execute(query)
+
+            rows = cursor.fetchall()
+
+            return rows
+
+
+        except Exception as e:
+
+            raise DatabaseConnectionError(
+                f"Query execution failed: {e}"
+            )
+
+
+        finally:
+
+            if raw_connection:
+                raw_connection.close()
+
 
     def close(self):
+
         if self.engine:
             self.engine.dispose()

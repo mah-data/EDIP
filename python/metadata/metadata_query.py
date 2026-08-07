@@ -34,16 +34,29 @@ class MetadataQuery:
     
     def find_datasets_by_source(self, data_source_id):
 
+        connections = self.metadata.get(
+            "connetions",
+            []
+        )
+
         datasets = self.metadata.get(
             "datasets",
             []
         )
 
+        source_connections = [
+            connection.id
+            for connection in connections 
+            if connection.data_source_id == data_source_id
+        ]
+
         return [
             dataset
             for dataset in datasets
-            if dataset.data_source_id == data_source_id
-        ]
+            if dataset.connection_id in source_connections
+        ] 
+        
+        
 
     def find_quality_rules_by_dataset(self, dataset_id):
 
